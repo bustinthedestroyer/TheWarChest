@@ -22,7 +22,7 @@ public class Gun : MonoBehaviour
     void FixedUpdate()
     {
         Aim();
-
+        
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
@@ -32,7 +32,6 @@ public class Gun : MonoBehaviour
 
     void Aim()
     {
-
         mouse_pos = Input.mousePosition;
         mouse_pos.z = 5f; //Camera Size (The distance between the camera and object)
         object_pos = Camera.main.WorldToScreenPoint(transform.position);
@@ -54,7 +53,7 @@ public class Gun : MonoBehaviour
         Instantiate(Bullet, firePoint.position, variedrotation);
 
         ///// Hit Scan
-        // Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        //Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         //Vector2 firePointPosition = new Vector2(firePoint.position.x, firePoint.position.y);
         //RaycastHit2D hit = Physics2D.Raycast(firePointPosition, mousePosition - firePointPosition, 100, whatToHit);
         //Debug.DrawLine(firePointPosition, (mousePosition - firePointPosition) * 10, Color.cyan);

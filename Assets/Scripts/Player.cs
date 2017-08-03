@@ -4,6 +4,8 @@ using System.Collections;
 [RequireComponent (typeof (Controller2D))]
 public class Player : MonoBehaviour {
 
+    public int MaxNumberOfJumps = 1;
+    private int currentNumberOfJumps = 0; 
 	public float maxJumpHeight = 4;
 	public float minJumpHeight = 1;
 	public float timeToJumpApex = .4f;
@@ -52,6 +54,12 @@ public class Player : MonoBehaviour {
 				velocity.y = 0;
 			}
 		}
+
+        //TODO Code review:  Resets jumps when we touch the ground.
+        if (controller.collisions.below)
+        {
+            currentNumberOfJumps = 0;
+        }
 	}
 
 	public void SetDirectionalInput (Vector2 input) {
@@ -73,14 +81,18 @@ public class Player : MonoBehaviour {
 				velocity.y = wallLeap.y;
 			}
 		}
-		if (controller.collisions.below) {
-			if (controller.collisions.slidingDownMaxSlope) {
+        //Keep jumping as long as we can keep jumping
+		if (currentNumberOfJumps < MaxNumberOfJumps)
+            {
+                if (controller.collisions.slidingDownMaxSlope) {
 				if (directionalInput.x != -Mathf.Sign (controller.collisions.slopeNormal.x)) { // not jumping against max slope
 					velocity.y = maxJumpVelocity * controller.collisions.slopeNormal.y;
 					velocity.x = maxJumpVelocity * controller.collisions.slopeNormal.x;
 				}
 			} else {
 				velocity.y = maxJumpVelocity;
+                //Add to the current number of jumps
+                currentNumberOfJumps++;
 			}
 		}
 	}

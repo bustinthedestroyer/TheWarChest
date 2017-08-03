@@ -8,12 +8,7 @@ public class Bullet : MonoBehaviour
     public Vector3 velocity;
     public GameObject flash;
     public int Damage = 3;
-
-    private void Start()
-    {
-        GetComponent<AudioSource>().Play();
-    }
-
+    
     void FixedUpdate()
     {
         var rb = GetComponent<Rigidbody2D>();
