@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour {
 
     //Reflection Properties
     public bool bounce = false;
-    public int maxbounces = 3;
+    public int maxbounces;
     private int currentBounces = 0;
 
     ////Audio
@@ -73,17 +73,13 @@ public class Projectile : MonoBehaviour {
             //Deflect
             if (bounce)
             {
-                if (currentBounces <= maxbounces)
+                if (currentBounces < maxbounces)
                 {
                     currentBounces++;
                     Ray ray = new Ray(transform.position, transform.right);
-                    //Vector3 reflectDir = Vector3.Reflect(ray.direction.normalized, hit.normal);
-                    Vector3 reflectDir = Vector3.Reflect(ray.direction, hit.normal);
-
-                    Ray ray2 = new Ray(transform.position, reflectDir);
-                    
-                    //float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
-                    //transform.rotation = Quaternion.Euler(new Vector3(0, 0, rot));
+                    Vector3 reflectDir = Vector3.Reflect(transform.right, hit.normal);                    
+                    float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, rot));
                 }
                 else
                 {
