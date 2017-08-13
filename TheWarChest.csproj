@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,10 +80,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Badguy.cs" />
+    <Compile Include="Assets\Health.cs" />
+    <Compile Include="Assets\Justin\Scripts\Scrap\Arrow.cs" />
     <Compile Include="Assets\Justin\Scripts\Brick.cs" />
-    <Compile Include="Assets\Justin\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Justin\Scripts\Scrap\Bullet.cs" />
     <Compile Include="Assets\Justin\Scripts\DestroyByTime.cs" />
     <Compile Include="Assets\Justin\Scripts\Gun.cs" />
+    <Compile Include="Assets\Justin\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Controller2D.cs" />
     <Compile Include="Assets\Scripts\PlatformController.cs" />

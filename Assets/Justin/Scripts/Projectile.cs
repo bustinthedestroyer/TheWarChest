@@ -2,34 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : MonoBehaviour
+{
 
-    //Base Properties
-    public float lifeTime = 5;
-    public float speed = 20;
-    public int Damage = 3;
-    public LayerMask whatToHit;
-    public bool destroyOnImpact = true;
+    ///Base Properties
+    public float TimeToLive;
+    public float Speed;
+    public int Damage;
+    public LayerMask Targets;
+    public bool DestroyOnImpact = true;
     private bool go = true;
 
-    //Reflection Properties
-    public bool bounce = false;
-    public int maxbounces;
-    private int currentBounces = 0;
+    ///Reflection Properties
+    public bool Deflects = false;
+    public int MaximumDeflections;
+    private int currentDeflections = 0;
 
-    ////Audio
+    ///Audio
     //public AudioSource SoundOnFire;
     //public AudioSource SoundOnImpact;
 
-    ////Effects
+    ///Effects
     //public GameObject MuzzleFlash;
     //public GameObject Explosion;
 
 
     private void Start()
     {
-        //All projectiles are marked for death.
-        Destroy(gameObject, lifeTime);
+        ///All projectiles are marked for death.
+        Destroy(gameObject, TimeToLive);
 
         //if (SoundOnFire !=null)
         //{
@@ -39,70 +40,66 @@ public class Projectile : MonoBehaviour {
 
     void FixedUpdate()
     {
-        Move();
-        Collide();
+        //Go untill no!
+        if (go)
+        {
+            Move();
+            Collide();
+        }
     }
 
     void Move()
     {
-        if (go)
-        {
-            transform.Translate(new Vector2(1, 0) * Time.deltaTime * speed);
-        }
+        transform.Translate(new Vector2(1, 0) * Time.deltaTime * Speed);
     }
 
     void Collide()
     {
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.1f, whatToHit);
+        ///Ray cast to see if we hit anything
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.1f, Targets);
         if (hit.collider != null)
         {
-
-            ////Play Sounds
+            ///Play Sounds
             //if (SoundOnImpact != null)
             //{
             //    SoundOnImpact.Play();
             //}
 
-            //Destroy
-            if (destroyOnImpact)
+            ///Destroy
+            if (DestroyOnImpact)
             {
+                ///Spawn Explosions
                 Destroy(gameObject);
             }
 
-            //Deflect
-            if (bounce)
-            {
-                if (currentBounces < maxbounces)
-                {
-                    currentBounces++;
-                    Ray ray = new Ray(transform.position, transform.right);
-                    Vector3 reflectDir = Vector3.Reflect(transform.right, hit.normal);                    
-                    float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, rot));
-                }
-                else
-                {
-                    go = false;
-                }
-            }
-
-
-            //Spawn Explosions
-
-            //Do Damage
+            ///Do Damage if there is a health componot of what we hit, or deflect if deflect is checked, long comment award.
             var targetHealth = hit.collider.GetComponent<Health>();
             if (targetHealth != null)
             {
-                targetHealth.GetsHit(Damage);
+                targetHealth.TakeDamage(Damage);
+                go = false;
             }
-            
-
+            else if (Deflects)
+            {
+                Deflection(hit.normal);
+            }
         }
     }
 
-    private void OnDestroy()
+    private void Deflection(Vector2 normal)
     {
-        //SoundOnFire.Play();
+        Debug.Log("Deflect called");
+        if (currentDeflections < MaximumDeflections)
+        {
+            currentDeflections++;
+            Ray ray = new Ray(transform.position, transform.right);
+            Vector3 reflectDir = Vector3.Reflect(transform.right, normal);
+            float rot = Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, rot));
+        }
+        else
+        {
+            go = false;
+        }
     }
 }

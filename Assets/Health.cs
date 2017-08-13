@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Health : MonoBehaviour {
 
-    public int maxHealth = 100;
-    public int currentHealth = 0;
+    public int MaximumHealth;
+
+    private int currentHealth;
 
     private void Awake()
     {
-        currentHealth = maxHealth;
+        currentHealth = MaximumHealth;
     }
 
-    public void GetsHit(int damaage)
+    public void TakeDamage(int damage)
     {
-        currentHealth -= damaage;
-        Debug.Log("Health: " + currentHealth.ToString());
-
+        currentHealth -= damage;
         if (currentHealth <= 0)
         {
             Destroy(gameObject);

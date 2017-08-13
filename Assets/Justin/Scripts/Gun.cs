@@ -25,7 +25,7 @@ public class Gun : MonoBehaviour
     {
         Aim();
 
-        ShootRayCast();
+        //ShootRayCast();
         
         if (Input.GetButton("Fire1") && Time.time > nextFire1)
         {
